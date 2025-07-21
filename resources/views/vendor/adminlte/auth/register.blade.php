@@ -55,6 +55,30 @@
             @enderror
         </div>
 
+
+        {{-- Fecha de nacimiento --}}
+        <div class="input-group mb-3">
+            <input type="date" name="fecha_nac" class="form-control @error('fecha_nac') is-invalid @enderror"
+                value="{{ old('fecha_nac') }}" placeholder="Fecha de nacimiento" required>
+
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-calendar-alt {{ config('adminlte.classes_auth_icon', '') }}"></span>
+                </div>
+            </div>
+
+            @error('fecha_nac')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+
+
+
+
+        
+
         {{-- Password field --}}
         <div class="input-group mb-3">
             <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"

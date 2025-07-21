@@ -4,8 +4,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Inicio</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('/admin/Eventos') }}">Eventos</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Lista de Eventos</li>
+            <li class="breadcrumb-item"><a href="{{ url('/admin/Actividades') }}">Actividades</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Lista de Todas Las Actividades de Todos los Eventos</li>
         </ol>
     </nav>
 @stop
@@ -15,10 +15,10 @@
     <div class="col-md-12">
         <div class="card card-outline card-primary">
             <div class="card-header">
-                <h3 class="card-title">Eventos Registrados En El Sistema</h3>
+                <h3 class="card-title">Actividades Registradas En El Sistema</h3>
 
                 <div class="card-tools">
-                    <a class="btn btn-primary" href="{{ url('/admin/Eventos/create') }}">Agregar nuevo</a>
+                    <a class="btn btn-primary" href="{{ url('/admin') }}">Atras</a>
                 </div>
                 <!-- /.card-tools -->
             </div>
@@ -29,49 +29,39 @@
                         <tr>
                             <th>Nro</th>
                             <th>Nombre</th>
-                            <!--<th>Descripcion</th>-->
+                            <th>Descripcion</th>
                             <th>Tipo</th>
-                            <th>fecha</th>
-                            <!--<th>Ubicacion</th>-->
-                            <th>Precio</th>
                             <th>Hora Inicio</th>
-                            <!--<th>Hora Fin</th>-->
+                            <th>Hora Fin</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($eventos as $evento)
+                        @foreach ($actividades as $actividad)
                             <tr>
                                 <td style="text-align: center">{{ $loop->iteration }}</td>
-                                <td>{{ $evento->nombre_evento }}</td>
-                                <!--<td>{{ $evento->descripcion }}</td>-->
-                                <td>{{ $evento->tipo_evento }}</td>
-                                <td>{{ $evento->fecha_evento }}</td>
-                                <!--<td>{{ $evento->ubicacion }}</td>-->
-                                <td>{{ $evento->precio }}</td>-->
-                                <td>{{ $evento->hora_inicio }}</td>
-                                <!--<td>{{ $evento->hora_fin }}</td>-->
+                                <td>{{ $actividad->nombre_actividad }}</td>
+                                <td>{{ $actividad->descripcion }}</td>
+                                <td>{{ $actividad->tipo_actividad }}</td>
+                                <td>{{ $actividad->hora_inicio }}</td>
+                                <td>{{ $actividad->hora_fin }}</td>
                                 
                                 <td style="text-align: center">
                                     <!-- botones de acción aquí -->
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        <a href="{{ route('actividades.create', $evento->id_evento) }}"
-                                            class="btn btn-primary"><i class="fas fa-eye"> Agregar Actividad </i></a>
-                                        <a href="{{ url('/admin/Eventos/Act/' . $evento->id_evento) }}"
-                                            class="btn btn-secondary"><i class="fas fa-eye"> Ver Actividades </i></a>
-                                        <a href="{{ url('/admin/Eventos/' . $evento->id_evento) }}"
-                                            class="btn btn-info"><i class="fas fa-eye"> Ver Evento </i></a>
-                                        <a href="{{ url('/admin/Eventos/' . $evento->id_evento) . '/edit' }}"
+                                        <a href="{{ url('/admin/Eventos/' . $actividad->id_actividad) }}"
+                                            class="btn btn-info"><i class="fas fa-eye"> Ver </i></a>
+                                        <a href="{{ url('/admin/Actividades/' . $actividad->id_evento) . '/edit' }}"
                                             class="btn btn-success"><i class="fas fa-pencil-alt"> Editar </i></a>
-                                        <form action="{{ url('/admin/Eventos/' . $evento->id_evento) }}" id="miformulario{{ $evento->id_evento }}" method="POST" class="d-inline">
+                                        <form action="{{ url('/admin/Actividades/' . $actividad->id_actividad) }}" id="miformulario{{ $actividad->id_actividad }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger"
-                                                onclick="preguntar{{ $evento->id_evento }}(event)">
+                                                onclick="preguntar{{ $actividad->id_actividad }}(event)">
                                                 <i class="fas fa-trash-alt"></i> Eliminar </button>
                                         </form>
                                         <script>
-                                            function preguntar{{ $evento->id_evento }}(event) {
+                                            function preguntar{{ $actividad->id_actividad }}(event) {
                                             event.preventDefault(); // Evita que se envíe el formulario inmediatamente
                                             Swal.fire({
                                             title: "¿Desea Eliminar este Registro?",
@@ -85,7 +75,7 @@
                                             }).then((result) => {
                                             if (result.isConfirmed) {
                                                 
-                                                document.getElementById('miformulario{{ $evento->id_evento }}').submit();
+                                                document.getElementById('miformulario{{ $actividad->id_actividad }}').submit();
                                             }
                                             });
                                         }

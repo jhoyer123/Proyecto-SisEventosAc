@@ -25,8 +25,8 @@ class ExpositorController extends Controller
         //return response()->json(request()->all());
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'biografia' => 'required|string|max:255',
-            'especialidad' => 'required|string|max:1000',
+            'biografia' => 'required|string|max:1000',
+            'especialidad' => 'required|string|max:255',
         ]);
 
         $expositor = new Expositor();

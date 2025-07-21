@@ -4,8 +4,8 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Inicio</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('/admin/Eventos') }}">Eventos</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Lista de Eventos</li>
+            <li class="breadcrumb-item"><a href="{{ url('/admin/Users') }}">Usuarios</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Lista de Usuarios</li>
         </ol>
     </nav>
 @stop
@@ -15,10 +15,10 @@
     <div class="col-md-12">
         <div class="card card-outline card-primary">
             <div class="card-header">
-                <h3 class="card-title">Eventos Registrados En El Sistema</h3>
+                <h3 class="card-title">Usuarios Registrados En El Sistema</h3>
 
                 <div class="card-tools">
-                    <a class="btn btn-primary" href="{{ url('/admin/Eventos/create') }}">Agregar nuevo</a>
+                    <a class="btn btn-primary" href="{{ url('/admin/Users/create') }}">Agregar nuevo</a>
                 </div>
                 <!-- /.card-tools -->
             </div>
@@ -29,66 +29,53 @@
                         <tr>
                             <th>Nro</th>
                             <th>Nombre</th>
-                            <!--<th>Descripcion</th>-->
-                            <th>Tipo</th>
-                            <th>fecha</th>
-                            <!--<th>Ubicacion</th>-->
-                            <th>Precio</th>
-                            <th>Hora Inicio</th>
-                            <!--<th>Hora Fin</th>-->
-                            <th>Acciones</th>
+                            <th>Correo</th>
+                            <th>Fecha Registro</th>
+                            <th style="text-align: center"  >Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($eventos as $evento)
+                        @foreach ($usuarios as $usuario)
                             <tr>
                                 <td style="text-align: center">{{ $loop->iteration }}</td>
-                                <td>{{ $evento->nombre_evento }}</td>
-                                <!--<td>{{ $evento->descripcion }}</td>-->
-                                <td>{{ $evento->tipo_evento }}</td>
-                                <td>{{ $evento->fecha_evento }}</td>
-                                <!--<td>{{ $evento->ubicacion }}</td>-->
-                                <td>{{ $evento->precio }}</td>-->
-                                <td>{{ $evento->hora_inicio }}</td>
-                                <!--<td>{{ $evento->hora_fin }}</td>-->
-                                
+                                <td>{{ $usuario->user->name}}</td>
+                                <td>{{ $usuario->user->email }}</td>
+                                <td>{{ $usuario->user->created_at }}</td>
                                 <td style="text-align: center">
                                     <!-- botones de acción aquí -->
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        <a href="{{ route('actividades.create', $evento->id_evento) }}"
-                                            class="btn btn-primary"><i class="fas fa-eye"> Agregar Actividad </i></a>
-                                        <a href="{{ url('/admin/Eventos/Act/' . $evento->id_evento) }}"
-                                            class="btn btn-secondary"><i class="fas fa-eye"> Ver Actividades </i></a>
-                                        <a href="{{ url('/admin/Eventos/' . $evento->id_evento) }}"
-                                            class="btn btn-info"><i class="fas fa-eye"> Ver Evento </i></a>
-                                        <a href="{{ url('/admin/Eventos/' . $evento->id_evento) . '/edit' }}"
-                                            class="btn btn-success"><i class="fas fa-pencil-alt"> Editar </i></a>
-                                        <form action="{{ url('/admin/Eventos/' . $evento->id_evento) }}" id="miformulario{{ $evento->id_evento }}" method="POST" class="d-inline">
+                                        <a href="{{ url('/admin/Users/' . $usuario->user->id) }}"
+                                            class="btn btn-info"><i class="fas fa-eye"> Ver</i></a>
+                                        <a href="{{ url('/admin/Expositores/' . $usuario->id_expositor) . '/edit' }}"
+                                            class="btn btn-success"><i class="fas fa-pencil-alt"> Editar</i></a>
+                                        <form action="{{ url('/admin/Expositores/' . $usuario->id_expositor) }}"
+                                            id="miformulario{{ $usuario->id_expositor }}" method="POST"
+                                            class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger"
-                                                onclick="preguntar{{ $evento->id_evento }}(event)">
-                                                <i class="fas fa-trash-alt"></i> Eliminar </button>
+                                                onclick="preguntar{{ $usuario->id_expositor }}(event)">
+                                                <i class="fas fa-trash-alt"></i>Eliminar</button>
                                         </form>
                                         <script>
-                                            function preguntar{{ $evento->id_evento }}(event) {
-                                            event.preventDefault(); // Evita que se envíe el formulario inmediatamente
-                                            Swal.fire({
-                                            title: "¿Desea Eliminar este Registro?",
-                                            text: "",
-                                            icon: "question",
-                                            showCancelButton: true,
-                                            confirmButtonColor: "#3085d6",
-                                            cancelButtonColor: "#d33",
-                                            confirmButtonText: "Si, Eliminar!",
-                                            denyButtonText: "No, Cancelar"
-                                            }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                
-                                                document.getElementById('miformulario{{ $evento->id_evento }}').submit();
+                                            function preguntar{{ $usuario->id_expositor }}(event) {
+                                                event.preventDefault(); // Evita que se envíe el formulario inmediatamente
+                                                Swal.fire({
+                                                    title: "¿Desea Eliminar este Registro?",
+                                                    text: "",
+                                                    icon: "question",
+                                                    showCancelButton: true,
+                                                    confirmButtonColor: "#3085d6",
+                                                    cancelButtonColor: "#d33",
+                                                    confirmButtonText: "Si, Eliminar!",
+                                                    denyButtonText: "No, Cancelar"
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+
+                                                        document.getElementById('miformulario{{ $usuario->id_expositor }}').submit();
+                                                    }
+                                                });
                                             }
-                                            });
-                                        }
                                         </script>
                                     </div>
                                 </td>
@@ -166,25 +153,25 @@
 @section('js')
     <script>
         /*$(function (){
-                                    $("#example1").DataTable({
-                                        "responsive":true,
-                                        "lengthChange": false,
-                                        "autoWidth": false,
-                                        "bottons":["copy","cvs","excel","pdf","print","colvis"],
-                                        "language":{
-                                            "url": "{{ asset('plugins/datatables/lang/es.json') }}"
-                                        }
-                                    }).bottons().container().appendTo('#example_wrapper .col-md-6:eq(0)');
-                                });*/
+                                        $("#example1").DataTable({
+                                            "responsive":true,
+                                            "lengthChange": false,
+                                            "autoWidth": false,
+                                            "bottons":["copy","cvs","excel","pdf","print","colvis"],
+                                            "language":{
+                                                "url": "{{ asset('plugins/datatables/lang/es.json') }}"
+                                            }
+                                        }).bottons().container().appendTo('#example_wrapper .col-md-6:eq(0)');
+                                    });*/
         $(function() {
             $("#example1").DataTable({
                 "pageLength": 10,
                 "language": {
                     "emptyTable": "No hay informaciÃ³n",
-                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Eventos",
-                    "infoEmpty": "Mostrando 0 a 0 de 0 Eventos",
-                    "infoFiltered": "(Filtrado de _MAX_ total Eventos)",
-                    "lengthMenu": "Mostrar _MENU_ Eventos",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Expositores",
+                    "infoEmpty": "Mostrando 0 a 0 de 0 Expositores",
+                    "infoFiltered": "(Filtrado de _MAX_ total Expositores)",
+                    "lengthMenu": "Mostrar _MENU_ Expositores",
                     "loadingRecords": "Cargando...",
                     "processing": "Procesando...",
                     "search": "Buscador:",

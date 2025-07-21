@@ -110,7 +110,7 @@ return [
     */
 
     'preloader' => [
-        'enabled' => true,
+        'enabled' => false,
         'mode' => 'fullscreen',
         'img' => [
             'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
@@ -339,30 +339,20 @@ return [
             'icon' => 'fas fa-fw fa-user',
             'submenu' => [
                 [
-                    'text' => 'Administrador',
+                    'text' => 'Administrador/Control',
                     'url' => '#',
                     'submenu' => [
                         [
                             'text' => 'Agregar',
-                            'url' => '#',
+                            'route' => 'users.create',
                         ],
                         [
-                            'text' => 'Listar',
-                            'url' => '#',
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'Control',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'Agregar',
-                            'url' => '#',
+                            'text' => 'Listar Administradores',
+                            'route' => 'users.admin',
                         ],
                         [
-                            'text' => 'Listar',
-                            'url' => '#',
+                            'text' => 'Listar Controles',
+                            'route' => 'users.control',
                         ],
                     ],
                 ],
@@ -370,10 +360,6 @@ return [
                     'text' => 'Participantes',
                     'url' => '#',
                     'submenu' => [
-                        [
-                            'text' => 'Agregar',
-                            'url' => '#',
-                        ],
                         [
                             'text' => 'Listar',
                             'url' => '#',
@@ -388,11 +374,21 @@ return [
             'submenu' => [
                 [
                     'text' => 'Agregar',
-                    'route' => '',
+                    'route' => 'eventos.create',
                 ],
                 [
                     'text' => 'Listar',
                     'route' => 'eventos.index',
+                ],
+            ],
+        ],
+        [
+            'text' => 'Actividades',
+            'icon' => 'fas fa-fw fa-user',
+            'submenu' => [
+                [
+                    'text' => 'Listar',
+                    'route' => 'actividades.index',
                 ],
             ],
         ],
