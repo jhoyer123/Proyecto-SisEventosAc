@@ -14,6 +14,12 @@ class ExpositorController extends Controller
         return view('admin.expositores.index', compact('expositores'));
     }
 
+    public function showExp()
+    {
+        $expositores = Expositor::all();
+        return view('admin.modals.asignarExp', compact('expositores'));
+    }
+
     public function create()
     {
         return view('admin.expositores.create');

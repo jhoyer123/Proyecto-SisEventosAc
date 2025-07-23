@@ -19,6 +19,7 @@ class Participante extends Model
     protected $table = 'participantes';
 
     protected $fillable = [
+        'id_participante',
         'fecha_nac',
     ];
 

@@ -4,8 +4,8 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url('/admin') }}">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="{{ url('/admin/Expositores') }}">Expositores</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Lista de Expositores</li>
+        <li class="breadcrumb-item"><a href="{{ url('/admin/Eventos') }}">Eventos</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Participantes inscritos</li>
     </ol>
 </nav>
 @stop
@@ -15,78 +15,37 @@
 <div class="col-md-12">
     <div class="card card-outline card-primary">
         <div class="card-header">
-            <h3 class="card-title">Expositores Registrados En El Sistema</h3>
-
-            <div class="card-tools">
-                <a class="btn btn-primary" href="{{ url('/admin/Expositores/create') }}">Agregar nuevo</a>
-            </div>
-            <!-- /.card-tools -->
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body" style="display: block;">
+            <h3 class="card-title">Participantes inscritos en el evento</h3>
             <table id="example1" class="table table-striped table-bordered table-hover table-sm">
                 <thead>
                     <tr>
                         <th>Nro</th>
-                        <th>Nombre</th>
-                        <th>Biografia</th>
-                        <th>Especialidad</th>
-                        <th>Acciones</th>
+                        <th>Nombre Participante</th>
+                        <th>Correo</th>
+                        <th>Edad</th>
+                        <th style="display: none;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($expositores as $expositor)
+                    @foreach ($participantes as $participante)
                     <tr>
                         <td style="text-align: center">{{ $loop->iteration }}</td>
-                        <td>{{ $expositor->nombre }}</td>
-                        <td>{{ $expositor->biografia }}</td>
-                        <td>{{ $expositor->especialidad }}</td>
-                        <td style="text-align: center">
+                        <td>{{ $participante->nombre }}</td>
+                        <td>{{ $participante->email }}</td>
+                        <td>{{ $participante->edad }}</td>
+                        <td style="display: none;">
                             <!-- botones de acción aquí -->
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                <a href="{{ url('/admin/Expositores/' . $expositor->id_expositor) }}"
-                                    class="btn btn-info"><i class="fas fa-eye"> Ver</i></a>
-                                @can('editar expositores')
-                                <a href="{{ url('/admin/Expositores/' . $expositor->id_expositor) . '/edit' }}"
-                                    class="btn btn-success"><i class="fas fa-pencil-alt"> Editar</i></a>@endcan
-                                @can('eliminar expositores')
-                                <form action="{{ url('/admin/Expositores/' . $expositor->id_expositor) }}" id="miformulario{{ $expositor->id_expositor }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-
-
-                                    <button type="submit" class="btn btn-danger"
-                                        onclick="preguntar(event, {{ $expositor->id_expositor }})">
-                                        <i class="fas fa-trash-alt"></i>Eliminar
-                                    </button>
-                                </form>
-                                @endcan
-                                <script>
-                                    function preguntar(event, id) {
-                                        event.preventDefault(); // Evitar submit inmediato
-
-                                        Swal.fire({
-                                            title: "¿Desea Eliminar este Registro?",
-                                            text: "",
-                                            icon: "question",
-                                            showCancelButton: true,
-                                            confirmButtonColor: "#3085d6",
-                                            cancelButtonColor: "#d33",
-                                            confirmButtonText: "Si, Eliminar!",
-                                            cancelButtonText: "No, Cancelar"
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                document.getElementById('miformulario' + id).submit();
-                                            }
-                                        });
-                                    }
-                                </script>
-                            </div>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
+
+            <!-- /.card-tools -->
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body" style="display: block;">
+
         </div>
         <!-- /.card-body -->
     </div>
@@ -157,16 +116,16 @@
 @section('js')
 <script>
     /*$(function (){
-                                    $("#example1").DataTable({
-                                        "responsive":true,
-                                        "lengthChange": false,
-                                        "autoWidth": false,
-                                        "bottons":["copy","cvs","excel","pdf","print","colvis"],
-                                        "language":{
-                                            "url": "{{ asset('plugins/datatables/lang/es.json') }}"
-                                        }
-                                    }).bottons().container().appendTo('#example_wrapper .col-md-6:eq(0)');
-                                });*/
+                                        $("#example1").DataTable({
+                                            "responsive":true,
+                                            "lengthChange": false,
+                                            "autoWidth": false,
+                                            "bottons":["copy","cvs","excel","pdf","print","colvis"],
+                                            "language":{
+                                                "url": "{{ asset('plugins/datatables/lang/es.json') }}"
+                                            }
+                                        }).bottons().container().appendTo('#example_wrapper .col-md-6:eq(0)');
+                                    });*/
     $(function() {
         $("#example1").DataTable({
             "pageLength": 10,

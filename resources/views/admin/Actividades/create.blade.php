@@ -12,7 +12,7 @@
 
 @section('content')
 
-    <div class="col-md-5">
+    <div class="col-md-8">
         <div class="card card-primary">
             <div class="card-header">
                 <h3 class="card-title">Llene los datos del Formulario</h3>

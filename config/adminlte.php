@@ -63,8 +63,9 @@ return [
     |
     */
 
-    'logo' => '<b>GESTION</b> EVENTOS',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo' => '<b>Eventos</b> AC',
+    'logo_img' => 'img/logo.jpg',
+    //'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -328,31 +329,36 @@ return [
             'label_color' => 'success',
         ],*/
         ['header' => 'Menú'],
-        [
+        /*[
             'text' => 'profile',
             'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-user',
             'calsses' => 'bg-blue text-white',
-        ],
+        ],*/
         [
             'text' => 'Usuarios',
             'icon' => 'fas fa-fw fa-user',
+            'can' => 'crear usuarios',
             'submenu' => [
                 [
                     'text' => 'Administrador/Control',
                     'url' => '#',
+                    'can' => 'crear usuarios', 
                     'submenu' => [
                         [
                             'text' => 'Agregar',
                             'route' => 'users.create',
+                             'can' => 'crear usuarios', 
                         ],
                         [
                             'text' => 'Listar Administradores',
                             'route' => 'users.admin',
+                            
                         ],
                         [
                             'text' => 'Listar Controles',
                             'route' => 'users.control',
+                            'can' => 'ver usuarios', 
                         ],
                     ],
                 ],
@@ -370,11 +376,12 @@ return [
         ],
         [
             'text' => 'Eventos',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-fw fa-calendar-alt',
             'submenu' => [
                 [
                     'text' => 'Agregar',
                     'route' => 'eventos.create',
+                    'can' => 'crear eventos',
                 ],
                 [
                     'text' => 'Listar',
@@ -384,7 +391,7 @@ return [
         ],
         [
             'text' => 'Actividades',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-fw fa-clipboard-list',
             'submenu' => [
                 [
                     'text' => 'Listar',
@@ -394,15 +401,27 @@ return [
         ],
         [
             'text' => 'Expositores',
-            'icon' => 'fas fa-fw fa-user',
+            'icon' => 'fas fa-fw fa-microphone-alt',
             'submenu' => [
                 [
                     'text' => 'Agregar',
                     'route' => 'expositores.create',
+                    'can' => 'ver expositores',
                 ],
                 [
                     'text' => 'Listar',
                     'route' => 'expositores.index',
+                ],
+            ],
+        ],
+        [
+            'text' => 'Incritos',
+            'icon' => 'fas fa-fw fa-microphone-alt',
+            'submenu' => [
+                [
+                    'text' => 'Listar',
+                    'route' => 'inscripciones.showin',
+                    'can' => 'ver usuarios',
                 ],
             ],
         ],

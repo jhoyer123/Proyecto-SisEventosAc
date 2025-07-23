@@ -22,9 +22,6 @@ class SQLConsoleController extends Controller
         return view('admin.index');
     }
 
-    /**
-     * Ejecuta la consulta SQL enviada desde el formulario
-     */
     public function execute(Request $request)
     {
         $request->validate([
@@ -33,6 +30,49 @@ class SQLConsoleController extends Controller
 
         $query = trim($request->input('query'));
 
+        try {
+            // Detectar si la consulta es SELECT o no
+            if (str_starts_with(strtolower($query), 'select')) {
+
+                $results = DB::select($query);
+
+                if (empty($results)) {
+                    return view('admin.index', [
+                        'results' => [],
+                        'message' => 'Consulta SELECT ejecutada correctamente, pero no se encontraron registros.'
+                    ]);
+                }
+
+                return view('admin.index', [
+                    'results' => $results
+                ]);
+            } else {
+                // Para INSERT, UPDATE, DELETE, etc.
+                DB::statement($query);
+
+                return view('admin.index', [
+                    'message' => '✅ Consulta ejecutada correctamente (INSERT, UPDATE o DELETE).'
+                ]);
+            }
+        } catch (\Exception $e) {
+            return view('admin.index', [
+                'error' => '⚠️ Error al ejecutar la consulta: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+
+    /**
+     * Ejecuta la consulta SQL enviada desde el formulario
+     */
+    /*public function execute(Request $request)
+    {
+        $request->validate([
+            'query' => 'required|string'
+        ]);
+
+        $query = trim($request->input('query'));
+/*
         // Seguridad básica: permitir solo SELECT
         if (!str_starts_with(strtolower($query), 'select')) {
             return view('admin.index', [
@@ -56,8 +96,8 @@ class SQLConsoleController extends Controller
             ]);
         } catch (\Exception $e) {
             return view('admin.index    ', [
-                'error' => '⚠️ Error al ejecutar la consulta: ' . $e->getMessage()
+                //'error' => '⚠️ Error al ejecutar la consulta: ' . $e->getMessage()
             ]);
         }
-    }
+    }*/
 }

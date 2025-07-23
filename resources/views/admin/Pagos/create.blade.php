@@ -41,7 +41,7 @@
                 <div class="form-group">
                     <label for="fecha_pago">Fecha de Pago</label>
                     <input type="date" class="form-control" id="fecha_pago" name="fecha_pago" value="{{ date('Y-m-d') }}"
-                        required>
+                        required readonly>
                 </div>
 
             </div>

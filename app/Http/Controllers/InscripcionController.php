@@ -13,6 +13,30 @@ use Carbon\Carbon;
 
 class InscripcionController extends Controller
 {
+
+    public function showin()
+    {
+        // Ejecutar el procedimiento almacenado (cursor)
+        DB::statement('CALL generar_reporte_inscritos()');
+
+        // Obtener los datos directamente sin modelo
+        $reporte = DB::table('reporte_inscritos')->get();
+
+        return view('admin.inscripciones.index', compact('reporte'));
+    }
+
+    public function showine($id_evento)
+    {
+        // Llama al procedimiento almacenado con cursor
+        $participantes = DB::select('CALL participantes_evento_cursor(?)', [$id_evento]);
+
+        // Retorna los datos a la vista 'eventos.participantes'
+        return view('admin.inscripciones.showin', [
+            'participantes' => $participantes,
+            'evento_id' => $id_evento
+        ]);
+    }
+
     /**
      * Almacena una nueva inscripción en la base de datos.
      */
@@ -65,9 +89,8 @@ class InscripcionController extends Controller
                 'data' => $inscripcion
             ], 201);*/
             return redirect()->route('eventos.index')
-            ->with('mensaje', 'Inscripción realizada con éxito')
-            ->with('icono', 'success');
-
+                ->with('mensaje', 'Inscripción realizada con éxito')
+                ->with('icono', 'success');
         } catch (\Exception $e) {
             // Si algo falla, revertimos la transacción
             DB::rollBack();

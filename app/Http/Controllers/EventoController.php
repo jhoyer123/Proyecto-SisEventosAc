@@ -4,17 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Evento;
+use App\Models\Expositor;
 use Illuminate\Http\Request;
 use App\Models\Administrador;
 //use Illuminate\Container\Attributes\Auth;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 
 class EventoController extends Controller
 {
     public function index()
     {
         $eventos = Evento::all();
+
         return view('admin.eventos.index', compact('eventos'));
     }
 
@@ -73,8 +75,24 @@ class EventoController extends Controller
         //return view('admin.expositores.create');
         //echo "$id";
         $evento = Evento::findOrFail($id_evento);
+        $expositores = Expositor::all();
+        $idEstudiante = Auth::id();
         //return response()->json($expositor);
-        return view('admin.eventos.show', compact('evento'));
+        // Llamamos a la función MySQL que creaste
+        // Verificamos si se ha tomado asistencia
+        $asistenciasRegistradas = DB::table('reg_asists')
+            ->where('id_evento', $id_evento)
+            ->exists();
+
+        $totalAsistentes = null;
+
+        if ($asistenciasRegistradas) {
+            $totalAsistentes = DB::select("SELECT contar_asistentes_evento(?) AS total", [$id_evento])[0]->total;
+        }
+
+        $yaInscrito = DB::select("SELECT verificar_inscripcion(?, ?) AS existe", [$idEstudiante, $id_evento])[0]->existe;
+
+        return view('admin.eventos.show', compact('evento', 'expositores', 'asistenciasRegistradas', 'totalAsistentes', 'yaInscrito'));
     }
 
     public function edit($id_evento)

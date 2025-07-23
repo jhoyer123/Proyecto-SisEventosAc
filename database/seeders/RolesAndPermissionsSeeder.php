@@ -17,38 +17,42 @@ class RolesAndPermissionsSeeder extends Seeder
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Crear roles
-        Role::create(['name' => 'Administrador']);
-        Role::create(['name' => 'Control']);
-        Role::create(['name' => 'Participante']);
+        $adminRole = Role::firstOrCreate(['name' => 'Administrador']);
+        $controlRole = Role::firstOrCreate(['name' => 'Control']);
+        $participantRole = Role::firstOrCreate(['name' => 'Participante']);
 
-        // Aquí también podrías crear permisos y asignarlos a roles si lo necesitas
-        // Permission::create(['name' => 'editar eventos']);
-        // $roleAdmin = Role::findByName('Administrador');
-        // $roleAdmin->givePermissionTo('editar eventos');
+        Permission::firstOrCreate(['name' => 'crear eventos']);
+        Permission::firstOrCreate(['name' => 'editar eventos']);
+        Permission::firstOrCreate(['name' => 'eliminar eventos']);
+        Permission::firstOrCreate(['name' => 'ver eventos']);
 
-        // Crear permisos
-        //con ecentos
-        Permission::create(['name' => 'crear eventos']);
-        Permission::create(['name' => 'editar eventos']);
-        Permission::create(['name' => 'eliminar eventos']);
-        Permission::create(['name' => 'ver eventos']);
+        Permission::firstOrCreate(['name' => 'crear actividades']);
+        Permission::firstOrCreate(['name' => 'editar actividades']);
+        Permission::firstOrCreate(['name' => 'eliminar actividades']);
+        Permission::firstOrCreate(['name' => 'ver actividades']);
 
-        //con actividades
-        Permission::create(['name' => 'crear eventos']);
-        Permission::create(['name' => 'editar eventos']);
-        Permission::create(['name' => 'eliminar eventos']);
-        Permission::create(['name' => 'ver eventos']);
+        Permission::firstOrCreate(['name' => 'crear usuarios']);
+        Permission::firstOrCreate(['name' => 'editar usuarios']);
+        Permission::firstOrCreate(['name' => 'eliminar usuarios']);
+        Permission::firstOrCreate(['name' => 'ver usuarios']);
 
-        //con usuarios
-        Permission::create(['name' => 'crear eventos']);
-        Permission::create(['name' => 'editar eventos']);
-        Permission::create(['name' => 'eliminar eventos']);
-        Permission::create(['name' => 'ver eventos']);
+        Permission::firstOrCreate(['name' => 'crear expositores']);
+        Permission::firstOrCreate(['name' => 'editar expositores']);
+        Permission::firstOrCreate(['name' => 'eliminar expositores']);
+        Permission::firstOrCreate(['name' => 'ver expositores']);
 
-        //
+        // Asignar permisos a roles (ejemplo)
+        $adminRole->givePermissionTo(Permission::all()); // Admin puede hacer todo
 
+        $controlRole->givePermissionTo([
+            'ver eventos',
+            'ver actividades',
+            'ver usuarios',
+        ]);
 
-        
+        $participantRole->givePermissionTo([
+            'ver eventos',
+            'ver actividades',
+        ]);
     }
 }

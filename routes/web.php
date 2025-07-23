@@ -44,10 +44,23 @@ Route::get('/admin/sql-console', [App\Http\Controllers\Admin\SQLConsoleControlle
 Route::post('/admin/sql-console', [App\Http\Controllers\Admin\SQLConsoleController::class, 'execute'])
     ->name('admin.sql_console.execute');
 
-    //Rutas de las inscripciones
+
+//Rutas para asignar expositores with modals
+//Route::get('/admin/modals/showExp', [App\Http\Controllers\ExpositorController::class, 'showExp'])->name('modalExp.showExp')->middleware('auth');
+Route::post('/admin/modals/showExp', [App\Http\Controllers\AsignaController::class, 'store'])->name('asignar.expositor')->middleware('auth');
+
+
+//Rutas de los controles
+Route::get('/admin/registros/control/{id_evento}', [App\Http\Controllers\RegAsistController::class, 'control'])->name('control.index')->middleware('auth');
+Route::post('/admin/registros/asistencia/{id}', [App\Http\Controllers\RegAsistController::class, 'asistencia'])->name('RegAsist.asistencia');
+
+//Rutas de las inscripciones
 //Route::post('/admin/inscripciones', [App\Http\Controllers\PagoController::class, 'store'])->name('inscripciones.store')->middleware('auth');
 //Route::post('/admin/inscripciones/create', [App\Http\Controllers\PagoController::class, 'create'])->name('inscripciones.create')->middleware('auth');
 Route::post('/admin/inscripciones/create', [App\Http\Controllers\InscripcionController::class, 'store'])->name('inscripciones.store')->middleware('auth');
+Route::get('/admin/inscripciones/showin', [App\Http\Controllers\InscripcionController::class, 'showin'])->name('inscripciones.showin')->middleware('auth');
+Route::get('/admin/inscripciones/showine/{id_evento}', [App\Http\Controllers\InscripcionController::class, 'showine'])->name('inscripciones.showine')->middleware('auth');
+
 
 //Ruats de Pagos
 Route::get('/admin/Pagos', [App\Http\Controllers\PagoController::class, 'store'])->name('pagos.store')->middleware('auth');
@@ -78,7 +91,7 @@ Route::get('/admin/Actividades', [App\Http\Controllers\ActividadController::clas
 //Route::get('/admin/Actividades/create/{id_evento}', [App\Http\Controllers\ActividadController::class, 'create'])->name('actividades.create')->middleware('auth');
 Route::get('/admin/Actividades/create/{id_evento}', [App\Http\Controllers\ActividadController::class, 'create'])->name('actividades.create')->middleware('auth');
 Route::post('/admin/Actividades/create', [App\Http\Controllers\ActividadController::class, 'store'])->name('actividades.store')->middleware('auth');
-//Route::get('/admin/Eventos/{id_evento}', [App\Http\Controllers\EventoController::class, 'show'])->name('eventos.show')->middleware('auth');
+Route::get('/admin/Actividades/{id_actividad}', [App\Http\Controllers\ActividadController::class, 'show'])->name('actividades.show')->middleware('auth');
 Route::get('/admin/Actividades/{id_actividad}/edit', [App\Http\Controllers\ActividadController::class, 'edit'])->name('actividades.edit')->middleware('auth');
 Route::put('/admin/Actividades/{id_actividad}', [App\Http\Controllers\ActividadController::class, 'update'])->name('actividades.update')->middleware('auth');
 Route::delete('/admin/Actividades/{id_actividad}', [App\Http\Controllers\ActividadController::class, 'destroy'])->name('actividades.destroy')->middleware('auth');
@@ -93,5 +106,3 @@ Route::get('/admin/Users/{id}', [App\Http\Controllers\Admin\UserController::clas
 //Route::get('/admin/Expositores/{id_evento}/edit', [App\Http\Controllers\Admin\UserController::class, 'edit'])->name('eventos.edit')->middleware('auth');
 //Route::put('/admin/Expositores/{id_expositor}', [App\Http\Controllers\ExpositorController::class, 'update'])->name('expositores.update')->middleware('auth');
 //Route::delete('/admin/Expositores/{id_expositor}', [App\Http\Controllers\ExpositorController::class, 'destroy'])->name('expositores.destroy')->middleware('auth');
-
-

@@ -29,11 +29,11 @@
                         <tr>
                             <th>Nro</th>
                             <th>Nombre</th>
-                            <th>Descripcion</th>
+                            <!--<th>Descripcion</th>-->
                             <th>Tipo</th>
                             <th>Hora Inicio</th>
                             <th>Hora Fin</th>
-                            <th>Acciones</th>
+                            <th style="text-align: center;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,7 +41,7 @@
                             <tr>
                                 <td style="text-align: center">{{ $loop->iteration }}</td>
                                 <td>{{ $actividad->nombre_actividad }}</td>
-                                <td>{{ $actividad->descripcion }}</td>
+                                <!--<td>{{ $actividad->descripcion }}</td>-->
                                 <td>{{ $actividad->tipo_actividad }}</td>
                                 <td>{{ $actividad->hora_inicio }}</td>
                                 <td>{{ $actividad->hora_fin }}</td>
@@ -49,10 +49,12 @@
                                 <td style="text-align: center">
                                     <!-- botones de acción aquí -->
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        <a href="{{ url('/admin/Eventos/' . $actividad->id_actividad) }}"
+                                        <a href="{{ url('/admin/Actividades/' . $actividad->id_actividad) }}"
                                             class="btn btn-info"><i class="fas fa-eye"> Ver </i></a>
+                                        @can('editar actividades')
                                         <a href="{{ url('/admin/Actividades/' . $actividad->id_evento) . '/edit' }}"
-                                            class="btn btn-success"><i class="fas fa-pencil-alt"> Editar </i></a>
+                                            class="btn btn-success"><i class="fas fa-pencil-alt"> Editar </i></a>@endcan
+                                        @can('eliminar actividades')
                                         <form action="{{ url('/admin/Actividades/' . $actividad->id_actividad) }}" id="miformulario{{ $actividad->id_actividad }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
@@ -60,6 +62,7 @@
                                                 onclick="preguntar{{ $actividad->id_actividad }}(event)">
                                                 <i class="fas fa-trash-alt"></i> Eliminar </button>
                                         </form>
+                                        @endcan
                                         <script>
                                             function preguntar{{ $actividad->id_actividad }}(event) {
                                             event.preventDefault(); // Evita que se envíe el formulario inmediatamente
